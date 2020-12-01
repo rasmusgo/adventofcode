@@ -18,7 +18,7 @@ const SUM_TO_FIND: usize = 2020;
 fn main() {
     // Create fast lookup of the set of numbers.
     let mut seen_numbers: [bool; SUM_TO_FIND] = [false; SUM_TO_FIND];
-    for &number in NUMBERS.iter() {
+    for &number in &NUMBERS {
         if number >= SUM_TO_FIND {
             panic!("Invalid input");
         }
@@ -26,7 +26,7 @@ fn main() {
     }
 
     // Find pair of numbers with the specified sum.
-    for &number in NUMBERS.iter() {
+    for &number in &NUMBERS {
         let complement = SUM_TO_FIND - number;
         if seen_numbers[complement] {
             println!("{} * {} = {}", number, complement, number * complement);
@@ -37,7 +37,7 @@ fn main() {
     // Find triplet of numbers with the specified sum.
     for (i, &a) in NUMBERS.iter().enumerate() {
         let partial_num_to_find = SUM_TO_FIND - a;
-        for &b in NUMBERS[i + 1..].iter() {
+        for &b in &NUMBERS[i + 1..] {
             if b >= partial_num_to_find {
                 continue;
             }
