@@ -6,13 +6,27 @@ fn main() {
     let mut seen_numbers: [bool; 2020] = [false; 2020];
     for number in NUMBERS.iter() {
         if *number >= SUM_TO_FIND {
-            continue;
+            panic!("Invalid input");
         }
         seen_numbers[*number] = true;
         let complement = SUM_TO_FIND - *number;
         if seen_numbers[complement] {
-            println!("{}", (*number) * complement);
-            return;
+            println!("{} * {} = {}", *number, complement, *number * complement);
+            break;
+        }
+    }
+
+    for a in NUMBERS.iter() {
+        let partial_num_to_find = SUM_TO_FIND - *a;
+        for b in NUMBERS.iter() {
+            if *b >= partial_num_to_find {
+                continue;
+            }
+            let third_number = partial_num_to_find - *b;
+            if seen_numbers[third_number] {
+                println!("{} * {} * {} = {}", *a, *b, third_number, *a * *b * third_number);
+                return;
+            }
         }
     }
 }
