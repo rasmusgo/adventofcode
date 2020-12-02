@@ -26,7 +26,7 @@ fn part2_ok(low: usize, high: usize, letter: &str, password: &str) -> bool {
     }
     let match_low = &password[low - 1..low] == letter;
     let match_high = &password[high - 1..high] == letter;
-    return match_low != match_high;
+    match_low != match_high
 }
 
 fn main() {
