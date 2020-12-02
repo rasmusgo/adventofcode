@@ -16,13 +16,7 @@ fn parse_line(s: &str) -> Option<(usize, usize, String, String)> {
 }
 
 fn count_letters(string: &str, needle: &str) -> usize {
-    let mut num_matches: usize = 0;
-    for c in string.chars() {
-        if String::from(c) == needle {
-            num_matches += 1;
-        }
-    }
-    return num_matches;
+    string.matches(needle).count()
 }
 
 fn part2_ok(low: usize, high: usize, letter: &str, password: &str) -> bool {
