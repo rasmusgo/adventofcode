@@ -6,7 +6,7 @@ use std::{io, io::prelude::*};
 // 1-3 b: cdefg
 // 2-9 c: ccccccccc
 fn parse_line(s: &str) -> Option<(usize, usize, String, String)> {
-    let r = Regex::new(r"([0-9]+)-([0-9]+) (.): (.*)").unwrap();
+    let r = Regex::new(r"([0-9]+)-([0-9]+) (.): (.*)").ok()?;
     let caps = r.captures(s)?;
     let min_count = caps.get(1)?.as_str().parse().ok()?;
     let max_count = caps.get(2)?.as_str().parse().ok()?;
@@ -35,16 +35,12 @@ fn part2_ok(low: usize, high: usize, letter: &str, password: &str) -> bool {
     return match_low != match_high;
 }
 
-fn main() -> io::Result<()> {
+fn main() {
     let mut num_valid_passwords = 0;
     let mut num_invalid_passwords = 0;
     let mut num_part2_valid_passwords = 0;
-    for line_result in io::stdin().lock().lines() {
-        let line = line_result?;
-        let (low, high, letter, password) = match parse_line(&line) {
-            Some(parsed_line) => parsed_line,
-            None => panic!("Failed to parse input"),
-        };
+    for line in io::stdin().lock().lines() {
+        let (low, high, letter, password) = parse_line(&line.unwrap()).unwrap();
         let num_special_letters = count_letters(&password, &letter);
         if num_special_letters < low || num_special_letters > high {
             num_invalid_passwords += 1;
@@ -61,5 +57,4 @@ fn main() -> io::Result<()> {
         "Number of valid passwords for part 2: {}",
         num_part2_valid_passwords
     );
-    Ok(())
 }
