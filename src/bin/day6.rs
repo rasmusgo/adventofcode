@@ -27,12 +27,24 @@ fn main() {
 
     let mut sum = 0;
     for group in input.split("\n\n") {
-        let mut set_of_letters = BTreeSet::new();
-        for letter in group.chars() {
-            set_of_letters.insert(letter);
+        let persons: Vec<&str> = group.lines().collect();
+        let mut primary_set = BTreeSet::new();
+        for letter in persons[0].chars() {
+            primary_set.insert(letter);
         }
-        set_of_letters.remove(&'\n');
-        sum += set_of_letters.len();
+        for person in persons[1..].iter() {
+            let mut secondary_set = BTreeSet::new();
+            for letter in person.chars() {
+                secondary_set.insert(letter);
+            }
+
+            let diff: Vec<_> = primary_set.difference(&secondary_set).cloned().collect();
+            for d in diff {
+                primary_set.remove(&d);
+            }
+        }
+        println!("{}: {}", group, primary_set.len());
+        sum += primary_set.len();
     }
     println!("Sum: {}", sum);
 }
